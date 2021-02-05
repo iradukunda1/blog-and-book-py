@@ -1,12 +1,15 @@
 from django.shortcuts import render
 
-from rest_framework import viewsets, status, filters
+from rest_framework import viewsets, status, filters, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth import login
+from knox.views import LoginView
+from knox.models import AuthToken
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 
 from . import serializers
 from . import models
@@ -89,12 +92,12 @@ class HelloViewSet(viewsets.ViewSet):
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Handles create and update user also search"""
 
-    serializer_class = serializers.UserProfileSerializer
+    serializer_class = serializers.UserSerializer
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter,)
-    search_fields = ("name", "email",)
+    search_fields = ("username", "email",)
 
 
 # class LoginViewSet(viewsets.ViewSet):
@@ -109,15 +112,39 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 #     #         "token":TokenAuthentication.objects.create(user)[1]
 #     #     })
 
-class LoginViewSet(viewsets.ViewSet):
-    """Checks email and password and returns an auth token."""
+# class RegisterApi(generics.GenericAPIView):
+#     serializer_class = serializers.RegisterSerializer
+#
+#     def post(self, request, *args, **kwargs):
+#
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         return Response({
+#             "user": serializers.UserSerializer(user, context=self.get_serializer_context()).data,
+#             "token": AuthToken.objects.create(user)[1]
+#         })
 
-    serializer_class = AuthTokenSerializer
+# class LoginViewSet(viewsets.ViewSet):
+#     """Checks email and password and returns an auth token."""
+#
+#     serializer_class = AuthTokenSerializer
+#
+#     def create(self, request):
+#         """Use the ObtainAuthToken APIView to validate and create a token."""
+#
+#         return ObtainAuthToken().post(request)
 
-    def create(self, request):
-        """Use the ObtainAuthToken APIView to validate and create a token."""
+class LoginApi(LoginView):
+    permission_classes = (permissions.AllowAny,)
 
-        return ObtainAuthToken().post(request)
+    def post(self, request):
+        serializer = AuthTokenSerializer(data=request.data)
+        # print(serializer, request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user)
+        return super(LoginApi, self).post(request, format=None)
 
 
 class ProfileFeedViewSet(viewsets.ModelViewSet):

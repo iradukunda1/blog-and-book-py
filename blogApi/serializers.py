@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from knox.models import AuthToken
 from . import models
 
 
@@ -9,7 +10,7 @@ class HelloSerializer(serializers.Serializer):
         return name
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserProfile
         fields = '__all__'
@@ -18,13 +19,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = models.UserProfile(
             email=validated_data['email'],
-            name=validated_data['name'],
+            username=validated_data['username'],
             is_active=validated_data['is_active'],
             is_staff=validated_data['is_staff'],
         )
         user.set_password(validated_data['password'])
 
         user.save()
+
         return user
 
 

@@ -17,3 +17,10 @@ class UpdateOwnFeed(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.user_profile.id == request.user.id
+
+
+class AllowAny(permissions.BasePermission):
+    message = "Not found User"
+
+    def has_permission(self, request, view):
+        return True
