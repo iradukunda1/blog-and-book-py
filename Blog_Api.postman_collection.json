@@ -1,0 +1,281 @@
+{
+	"info": {
+		"name": "Blog_Api",
+		"_postman_id": "3c10b1ee-49fa-446e-937e-3a71e75731f3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all profiles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"description": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "0780633340a",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "admin@admin.com",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/profile/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"profile",
+						""
+					]
+				},
+				"description": "For getting all profiles"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"dedsec\",\n\t\"password\":\"0780633340a\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/auth/login/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login",
+						""
+					]
+				},
+				"description": "For registrated user login "
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Feed List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": " Token {{token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/feed",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"feed"
+					]
+				},
+				"description": "All feeds"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Feed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": " Token {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "status_text",
+							"value": "Hello am using postman",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/feed/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"feed",
+						""
+					]
+				},
+				"description": "For creating feed based on user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Book List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/books",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"books"
+					]
+				},
+				"description": "For getting books"
+			},
+			"response": []
+		},
+		{
+			"name": "Book Details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/books/{{book_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"{{book_id}}"
+					]
+				},
+				"description": "For getting book details"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Book",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Java 1 Edition\",\n    \"isbn\": \"87990ISQEW1\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/books/{{book_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"{{book_id}}"
+					]
+				},
+				"description": "For updating book"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Java 2 Edition\",\n    \"author\": \"John Ally\",\n    \"isbn\": \"YWQIJKNk8979\",\n    \"publisher\": \"Edition Bakame\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/books/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"books",
+						""
+					]
+				},
+				"description": "For creating Book"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/books/{{book_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"{{book_id}}"
+					]
+				},
+				"description": "For deleting book"
+			},
+			"response": []
+		}
+	]
+}

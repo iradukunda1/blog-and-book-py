@@ -9,7 +9,7 @@ from knox.models import AuthToken
 # Create your models here.
 
 class UserProfileManager(BaseUserManager):
-    """hElP OUR DJANGO WORK WITH MY COSTUMER USER"""
+    """hELP OUR DJANGO WORK WITH MY COSTUMER USER"""
     model = models
 
     def create_user(self, email, username, password=None):
